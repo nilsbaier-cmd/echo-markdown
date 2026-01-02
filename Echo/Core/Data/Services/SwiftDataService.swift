@@ -1,11 +1,13 @@
-import SwiftUI
+import Foundation
 import SwiftData
 
-@main
-struct EchoApp: App {
+@MainActor
+final class SwiftDataService {
+    static let shared = SwiftDataService()
+
     let modelContainer: ModelContainer
 
-    init() {
+    private init() {
         do {
             let schema = Schema([
                 Recording.self,
@@ -27,10 +29,7 @@ struct EchoApp: App {
         }
     }
 
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-        .modelContainer(modelContainer)
+    var modelContext: ModelContext {
+        modelContainer.mainContext
     }
 }

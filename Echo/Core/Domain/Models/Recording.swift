@@ -1,12 +1,19 @@
 import Foundation
+import SwiftData
 
-struct Recording: Identifiable, Codable {
-    let id: UUID
-    let audioURL: URL
+@Model
+final class Recording {
+    @Attribute(.unique) var id: UUID
+    var audioURL: URL
     var transcript: String?
-    let timestamp: Date
-    var status: RecordingStatus
-    var generatedTexts: [GeneratedText]
+    var timestamp: Date
+    var statusRawValue: String
+    @Relationship(deleteRule: .cascade) var generatedTexts: [GeneratedText]
+
+    var status: RecordingStatus {
+        get { RecordingStatus(rawValue: statusRawValue) ?? .recorded }
+        set { statusRawValue = newValue.rawValue }
+    }
 
     init(
         id: UUID = UUID(),
@@ -20,7 +27,7 @@ struct Recording: Identifiable, Codable {
         self.audioURL = audioURL
         self.transcript = transcript
         self.timestamp = timestamp
-        self.status = status
+        self.statusRawValue = status.rawValue
         self.generatedTexts = generatedTexts
     }
 }

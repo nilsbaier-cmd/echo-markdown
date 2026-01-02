@@ -1,33 +1,41 @@
 import Foundation
-import CoreData
+import SwiftData
 
+@MainActor
 final class RecordingRepository: RecordingRepositoryProtocol {
-    private let coreDataService: CoreDataServiceProtocol
+    private let modelContext: ModelContext
 
-    init(coreDataService: CoreDataServiceProtocol) {
-        self.coreDataService = coreDataService
+    init(modelContext: ModelContext) {
+        self.modelContext = modelContext
     }
 
     func save(_ recording: Recording) async throws {
-        // TODO: Implement Core Data save
-        // Will be implemented when Core Data model is created
+        modelContext.insert(recording)
+        try modelContext.save()
     }
 
     func fetch(id: UUID) async throws -> Recording? {
-        // TODO: Implement Core Data fetch
-        return nil
+        let descriptor = FetchDescriptor<Recording>(
+            predicate: #Predicate { $0.id == id }
+        )
+        return try modelContext.fetch(descriptor).first
     }
 
     func fetchAll() async throws -> [Recording] {
-        // TODO: Implement Core Data fetch all
-        return []
+        let descriptor = FetchDescriptor<Recording>(
+            sortBy: [SortDescriptor(\.timestamp, order: .reverse)]
+        )
+        return try modelContext.fetch(descriptor)
     }
 
     func delete(id: UUID) async throws {
-        // TODO: Implement Core Data delete
+        if let recording = try await fetch(id: id) {
+            modelContext.delete(recording)
+            try modelContext.save()
+        }
     }
 
     func update(_ recording: Recording) async throws {
-        // TODO: Implement Core Data update
+        try modelContext.save()
     }
 }

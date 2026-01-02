@@ -28,7 +28,7 @@ struct OnboardingView: View {
                 }
             }
             .padding()
-            .navigationTitle("Echo einrichten")
+            .navigationTitle("Echo.md einrichten")
             .navigationBarTitleDisplayMode(.inline)
         }
     }
@@ -43,7 +43,7 @@ struct OnboardingView: View {
                 .font(.system(size: 80))
                 .foregroundStyle(.blue)
 
-            Text("Willkommen bei Echo")
+            Text("Willkommen bei Echo.md")
                 .font(.largeTitle)
                 .fontWeight(.bold)
 
@@ -73,7 +73,7 @@ struct OnboardingView: View {
                 .font(.title2)
                 .fontWeight(.semibold)
 
-            Text("Echo benötigt Zugang zu AssemblyAI (Transkription) und Claude (Textverarbeitung).")
+            Text("Echo.md benötigt Zugang zu AssemblyAI (Transkription) und Claude (Textverarbeitung).")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -147,7 +147,7 @@ struct OnboardingView: View {
                 .font(.largeTitle)
                 .fontWeight(.bold)
 
-            Text("Du kannst jetzt mit Echo Sprachnotizen aufnehmen und in Text umwandeln.")
+            Text("Du kannst jetzt mit Echo.md Sprachnotizen aufnehmen und in Text umwandeln.")
                 .font(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)

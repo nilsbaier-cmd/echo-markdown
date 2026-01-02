@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 // MARK: - Dependency Container Protocol
 
@@ -9,7 +10,6 @@ protocol DependencyContainer {
     var assemblyAIService: AssemblyAIServiceProtocol { get }
     var claudeService: ClaudeServiceProtocol { get }
     var keychainService: KeychainServiceProtocol { get }
-    var coreDataService: CoreDataServiceProtocol { get }
     var fileExportService: FileExportServiceProtocol { get }
 
     // Repositories
@@ -34,13 +34,19 @@ protocol DependencyContainer {
 
 // MARK: - Default Implementation
 
+@MainActor
 class DefaultDependencyContainer: DependencyContainer {
+    private let modelContext: ModelContext
+
+    init(modelContext: ModelContext) {
+        self.modelContext = modelContext
+    }
+
     // MARK: - Services (Lazy Singletons)
 
     lazy var audioService: AudioServiceProtocol = AudioService()
     lazy var hapticService: HapticServiceProtocol = HapticService()
     lazy var keychainService: KeychainServiceProtocol = KeychainService()
-    lazy var coreDataService: CoreDataServiceProtocol = CoreDataService()
     lazy var fileExportService: FileExportServiceProtocol = FileExportService()
 
     lazy var assemblyAIService: AssemblyAIServiceProtocol = {
@@ -56,7 +62,7 @@ class DefaultDependencyContainer: DependencyContainer {
     // MARK: - Repositories
 
     lazy var recordingRepository: RecordingRepositoryProtocol = RecordingRepository(
-        coreDataService: coreDataService
+        modelContext: modelContext
     )
 
     lazy var settingsRepository: SettingsRepositoryProtocol = SettingsRepository(
@@ -131,7 +137,9 @@ class DefaultDependencyContainer: DependencyContainer {
 // MARK: - Environment Key
 
 private struct DependencyContainerKey: EnvironmentKey {
-    static let defaultValue: DependencyContainer = DefaultDependencyContainer()
+    @MainActor static let defaultValue: DependencyContainer = DefaultDependencyContainer(
+        modelContext: SwiftDataService.shared.modelContext
+    )
 }
 
 extension EnvironmentValues {

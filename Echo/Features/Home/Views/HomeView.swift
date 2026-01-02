@@ -15,7 +15,7 @@ struct HomeView: View {
                     description: Text("Tippe auf den Button unten, um deine erste Sprachnotiz aufzunehmen.")
                 )
             }
-            .navigationTitle("Echo")
+            .navigationTitle("Echo.md")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {

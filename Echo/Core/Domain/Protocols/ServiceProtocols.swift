@@ -27,12 +27,6 @@ protocol KeychainServiceProtocol {
     func delete(key: String) throws
 }
 
-// MARK: - Core Data Service
-
-protocol CoreDataServiceProtocol {
-    func saveContext() throws
-}
-
 // MARK: - File Export Service
 
 protocol FileExportServiceProtocol {

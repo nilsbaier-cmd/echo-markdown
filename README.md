@@ -1,4 +1,4 @@
-# Echo
+# Echo.md
 
 Voice-to-Text iOS App mit KI-Unterstützung.
 
@@ -14,41 +14,17 @@ Voice-to-Text iOS App mit KI-Unterstützung.
 
 - **Framework:** SwiftUI
 - **Architektur:** MVVM + Clean Architecture
-- **iOS Target:** 16.0+
+- **Datenspeicherung:** SwiftData
+- **iOS Target:** 17.0+
 - **APIs:** AssemblyAI (Transkription), Claude (Textverarbeitung)
 
-## Projekt Setup
+## Projekt-Konfiguration
 
-### Xcode-Projekt erstellen
-
-1. Xcode öffnen
-2. **File → New → Project**
-3. Template: **iOS → App**
-4. Konfiguration:
-   - Product Name: `Echo`
-   - Bundle Identifier: `com.nils.echo`
-   - Interface: **SwiftUI**
-   - Language: **Swift**
-   - Storage: **None** (Core Data wird manuell hinzugefügt)
-5. Speicherort: Dieses Verzeichnis wählen
-6. Bestehende Dateien durch generierte ersetzen lassen
-
-### Dateien hinzufügen
-
-Nach dem Erstellen des Xcode-Projekts:
-
-1. Im Xcode Navigator: Rechtsklick auf "Echo" Ordner
-2. **Add Files to "Echo"...**
-3. Den gesamten `Echo/` Ordner auswählen
-4. "Create groups" aktivieren
-5. **Add**
-
-### Core Data Model erstellen
-
-1. **File → New → File...**
-2. **Core Data → Data Model**
-3. Name: `EchoDataModel`
-4. Speichern im `Echo/Core/Data/CoreData/` Ordner
+| Attribut | Wert |
+|----------|------|
+| **Bundle ID** | `com.resonance.Echo-md` |
+| **Display Name** | Echo.md |
+| **iOS Minimum** | 17.0 |
 
 ## Ordnerstruktur
 
@@ -56,13 +32,12 @@ Nach dem Erstellen des Xcode-Projekts:
 Echo/
 ├── Core/
 │   ├── Domain/
-│   │   ├── Models/          # Recording, GeneratedText, etc.
+│   │   ├── Models/          # Recording, GeneratedText, etc. (@Model)
 │   │   ├── Protocols/       # Repository & Service Interfaces
 │   │   └── UseCases/        # Business Logic
 │   ├── Data/
-│   │   ├── Repositories/    # Repository Implementierungen
-│   │   ├── Services/        # API Services
-│   │   └── CoreData/        # Core Data Entities
+│   │   ├── Repositories/    # SwiftData Repository Implementierungen
+│   │   └── Services/        # API Services, SwiftDataService
 │   └── Platform/
 │       ├── Audio/           # AVFoundation Service
 │       ├── Keychain/        # Secrets Storage

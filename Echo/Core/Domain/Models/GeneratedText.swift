@@ -1,10 +1,18 @@
 import Foundation
+import SwiftData
 
-struct GeneratedText: Identifiable, Codable {
-    let id: UUID
-    let content: String
-    let style: TextStyle
-    let timestamp: Date
+@Model
+final class GeneratedText {
+    @Attribute(.unique) var id: UUID
+    var content: String
+    var styleRawValue: String
+    var timestamp: Date
+    var recording: Recording?
+
+    var style: TextStyle {
+        get { TextStyle(rawValue: styleRawValue) ?? .obsidian }
+        set { styleRawValue = newValue.rawValue }
+    }
 
     init(
         id: UUID = UUID(),
@@ -14,7 +22,7 @@ struct GeneratedText: Identifiable, Codable {
     ) {
         self.id = id
         self.content = content
-        self.style = style
+        self.styleRawValue = style.rawValue
         self.timestamp = timestamp
     }
 }
