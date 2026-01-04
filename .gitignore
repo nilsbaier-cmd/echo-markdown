@@ -2,10 +2,12 @@
 *.xcodeproj/xcuserdata/
 *.xcworkspace/xcuserdata/
 DerivedData/
+build/
 *.hmap
 *.ipa
 *.dSYM.zip
 *.dSYM
+*.backup
 
 # Swift Package Manager
 .build/
