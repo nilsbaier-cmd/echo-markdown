@@ -50,7 +50,9 @@ struct HomeView: View {
     private var recordingsList: some View {
         List {
             ForEach(recordings) { recording in
-                RecordingRow(recording: recording)
+                NavigationLink(destination: RecordingDetailView(recording: recording)) {
+                    RecordingRow(recording: recording)
+                }
             }
         }
     }
@@ -116,6 +118,9 @@ struct RecordingRow: View {
             case .recorded:
                 Label("Aufgenommen", systemImage: "checkmark.circle.fill")
                     .foregroundStyle(.green)
+            case .uploading:
+                Label("Hochladen", systemImage: "arrow.up.circle")
+                    .foregroundStyle(.orange)
             case .transcribing:
                 Label("Transkribieren", systemImage: "waveform.circle")
                     .foregroundStyle(.orange)

@@ -75,7 +75,8 @@ class DefaultDependencyContainer: DependencyContainer {
     )
 
     lazy var transcriptionUseCase: TranscriptionUseCaseProtocol = TranscriptionUseCase(
-        assemblyAIService: assemblyAIService
+        assemblyAIService: assemblyAIService,
+        recordingRepository: recordingRepository
     )
 
     lazy var shadowReaderUseCase: ShadowReaderUseCaseProtocol = ShadowReaderUseCase(

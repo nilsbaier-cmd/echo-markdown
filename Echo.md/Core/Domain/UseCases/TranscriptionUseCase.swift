@@ -2,9 +2,11 @@ import Foundation
 
 final class TranscriptionUseCase: TranscriptionUseCaseProtocol {
     private let assemblyAIService: AssemblyAIServiceProtocol
+    private let recordingRepository: RecordingRepositoryProtocol
 
-    init(assemblyAIService: AssemblyAIServiceProtocol) {
+    init(assemblyAIService: AssemblyAIServiceProtocol, recordingRepository: RecordingRepositoryProtocol) {
         self.assemblyAIService = assemblyAIService
+        self.recordingRepository = recordingRepository
     }
 
     func transcribe(_ recording: Recording) async throws -> String {
@@ -13,9 +15,12 @@ final class TranscriptionUseCase: TranscriptionUseCaseProtocol {
         }
 
         recording.status = .uploading
+        try await recordingRepository.save(recording)
+
         let transcriptId = try await assemblyAIService.uploadAudio(audioURL)
 
         recording.status = .transcribing
+        try await recordingRepository.save(recording)
 
         // Poll for completion
         var transcript: AssemblyAITranscript
@@ -25,11 +30,14 @@ final class TranscriptionUseCase: TranscriptionUseCaseProtocol {
         } while transcript.status == "queued" || transcript.status == "processing"
 
         guard transcript.status == "completed", let text = transcript.text else {
+            recording.status = .failed
+            try await recordingRepository.save(recording)
             throw TranscriptionError.transcriptionFailed
         }
 
         recording.transcript = text
         recording.status = .transcribed
+        try await recordingRepository.save(recording)
 
         return text
     }

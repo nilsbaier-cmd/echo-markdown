@@ -12,31 +12,48 @@ struct SettingsView: View {
 
     var body: some View {
         NavigationStack {
-            List {
-                Section("API-Schlüssel") {
-                    HStack {
-                        Text("Claude")
-                        Spacer()
-                        if viewModel.hasClaudeKey {
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundStyle(.green)
-                        } else {
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundStyle(.red)
-                        }
+            Form {
+                Section {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Claude API-Key")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        SecureField("Dein Claude API-Key", text: $viewModel.claudeAPIKey)
+                            .textContentType(.password)
+                            .autocorrectionDisabled()
                     }
 
-                    HStack {
-                        Text("AssemblyAI")
-                        Spacer()
-                        if viewModel.hasAssemblyAIKey {
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundStyle(.green)
-                        } else {
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundStyle(.red)
-                        }
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("AssemblyAI API-Key")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        SecureField("Dein AssemblyAI API-Key", text: $viewModel.assemblyAIAPIKey)
+                            .textContentType(.password)
+                            .autocorrectionDisabled()
                     }
+
+                    Button {
+                        viewModel.saveAPIKeys()
+                    } label: {
+                        Text("Speichern")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .listRowBackground(Color.clear)
+
+                    if let error = viewModel.errorMessage {
+                        Text(error)
+                            .font(.caption)
+                            .foregroundStyle(.red)
+                    }
+
+                    if let success = viewModel.successMessage {
+                        Text(success)
+                            .font(.caption)
+                            .foregroundStyle(.green)
+                    }
+                } header: {
+                    Text("API-Schlüssel")
                 }
 
                 Section("Über") {

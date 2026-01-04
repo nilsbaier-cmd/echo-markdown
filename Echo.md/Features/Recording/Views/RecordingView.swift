@@ -7,6 +7,7 @@ struct RecordingView: View {
     init(container: DependencyContainer) {
         _viewModel = StateObject(wrappedValue: RecordingViewModel(
             recordingUseCase: container.recordingUseCase,
+            transcriptionUseCase: container.transcriptionUseCase,
             audioService: container.audioService,
             hapticService: container.hapticService
         ))

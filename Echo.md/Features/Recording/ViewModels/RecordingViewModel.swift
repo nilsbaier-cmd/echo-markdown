@@ -10,6 +10,7 @@ final class RecordingViewModel: ObservableObject {
     @Published var errorMessage: String?
 
     private let recordingUseCase: RecordingUseCaseProtocol
+    private let transcriptionUseCase: TranscriptionUseCaseProtocol
     private let audioService: AudioServiceProtocol
     private let hapticService: HapticServiceProtocol
 
@@ -18,10 +19,12 @@ final class RecordingViewModel: ObservableObject {
 
     init(
         recordingUseCase: RecordingUseCaseProtocol,
+        transcriptionUseCase: TranscriptionUseCaseProtocol,
         audioService: AudioServiceProtocol,
         hapticService: HapticServiceProtocol
     ) {
         self.recordingUseCase = recordingUseCase
+        self.transcriptionUseCase = transcriptionUseCase
         self.audioService = audioService
         self.hapticService = hapticService
     }
@@ -51,9 +54,23 @@ final class RecordingViewModel: ObservableObject {
             isRecording = false
             recordingDuration = 0
             hapticService.notification(.success)
+
+            // Start transcription in background
+            Task {
+                await transcribeRecording(recording)
+            }
         } catch {
             errorMessage = "Aufnahme konnte nicht gestoppt werden: \(error.localizedDescription)"
             hapticService.notification(.error)
+        }
+    }
+
+    private func transcribeRecording(_ recording: Recording) async {
+        do {
+            _ = try await transcriptionUseCase.transcribe(recording)
+        } catch {
+            // Error is already logged, recording status is updated
+            print("Transkription fehlgeschlagen: \(error.localizedDescription)")
         }
     }
 
