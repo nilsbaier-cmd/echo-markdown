@@ -22,7 +22,20 @@ protocol TranscriptionUseCaseProtocol {
 // MARK: - Reflect Use Case
 
 protocol ReflectUseCaseProtocol {
+    /// Generate initial questions for a transcript
     func generateQuestions(for transcript: String) async throws -> [ReflectQuestion]
+
+    /// Generate follow-up questions based on answered questions
+    func generateFollowUpQuestions(
+        originalTranscript: String,
+        answeredQuestions: [ReflectQuestion]
+    ) async throws -> [ReflectQuestion]
+
+    /// Integrate answers into the original transcript
+    func integrateAnswers(
+        originalTranscript: String,
+        answeredQuestions: [ReflectQuestion]
+    ) async throws -> String
 }
 
 // MARK: - Text Generation Use Case

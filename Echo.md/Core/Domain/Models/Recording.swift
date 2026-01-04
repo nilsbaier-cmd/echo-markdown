@@ -13,6 +13,9 @@ final class Recording {
     @Relationship(deleteRule: .cascade)
     var generatedTexts: [GeneratedText]?
 
+    @Relationship(deleteRule: .cascade)
+    var reflectSession: ReflectSession?
+
     init(
         id: UUID = UUID(),
         createdAt: Date = Date(),

@@ -12,7 +12,9 @@ final class SwiftDataService {
             let schema = Schema([
                 Recording.self,
                 GeneratedText.self,
-                VaultBookmark.self
+                VaultBookmark.self,
+                ReflectSession.self,
+                ReflectQuestion.self
             ])
 
             let modelConfiguration = ModelConfiguration(

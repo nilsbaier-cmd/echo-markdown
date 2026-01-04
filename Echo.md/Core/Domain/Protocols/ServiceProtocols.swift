@@ -50,6 +50,21 @@ struct AssemblyAITranscript: Codable {
 // MARK: - Claude Service
 
 protocol ClaudeServiceProtocol {
+    /// Generate initial reflect questions for a transcript
     func generateReflectQuestions(transcript: String) async throws -> [String]
+
+    /// Generate follow-up questions based on previous Q&A
+    func generateFollowUpQuestions(
+        originalTranscript: String,
+        previousQA: [(question: String, answer: String)]
+    ) async throws -> [String]
+
+    /// Integrate answers into the original transcript
+    func integrateContentWithAnswers(
+        originalTranscript: String,
+        qaHistory: [(question: String, answer: String)]
+    ) async throws -> String
+
+    /// Generate formatted text from transcript
     func generateText(transcript: String, style: String) async throws -> String
 }
