@@ -14,7 +14,7 @@ final class ClaudeService: ClaudeServiceProtocol {
         self.apiKey = apiKey
     }
 
-    func generateShadowReaderQuestions(transcript: String) async throws -> [String] {
+    func generateReflectQuestions(transcript: String) async throws -> [String] {
         let prompt = """
         Analysiere das folgende Transkript einer Sprachnotiz und stelle 2-3 klärende Rückfragen,
         die helfen würden, den Inhalt besser zu verstehen oder zu vervollständigen.

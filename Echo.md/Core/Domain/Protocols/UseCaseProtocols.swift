@@ -19,10 +19,10 @@ protocol TranscriptionUseCaseProtocol {
     func transcribe(_ recording: Recording) async throws -> String
 }
 
-// MARK: - Shadow Reader Use Case
+// MARK: - Reflect Use Case
 
-protocol ShadowReaderUseCaseProtocol {
-    func generateQuestions(for transcript: String) async throws -> [ShadowReaderQuestion]
+protocol ReflectUseCaseProtocol {
+    func generateQuestions(for transcript: String) async throws -> [ReflectQuestion]
 }
 
 // MARK: - Text Generation Use Case

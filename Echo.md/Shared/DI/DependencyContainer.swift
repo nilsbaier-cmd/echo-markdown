@@ -20,7 +20,7 @@ protocol DependencyContainer {
     var recordingUseCase: RecordingUseCaseProtocol { get }
     var fetchRecordingsUseCase: FetchRecordingsUseCaseProtocol { get }
     var transcriptionUseCase: TranscriptionUseCaseProtocol { get }
-    var shadowReaderUseCase: ShadowReaderUseCaseProtocol { get }
+    var reflectUseCase: ReflectUseCaseProtocol { get }
     var textGenerationUseCase: TextGenerationUseCaseProtocol { get }
     var exportUseCase: ExportUseCaseProtocol { get }
 }
@@ -79,7 +79,7 @@ class DefaultDependencyContainer: DependencyContainer {
         recordingRepository: recordingRepository
     )
 
-    lazy var shadowReaderUseCase: ShadowReaderUseCaseProtocol = ShadowReaderUseCase(
+    lazy var reflectUseCase: ReflectUseCaseProtocol = ReflectUseCase(
         claudeService: claudeService
     )
 

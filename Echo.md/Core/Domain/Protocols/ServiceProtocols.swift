@@ -50,6 +50,6 @@ struct AssemblyAITranscript: Codable {
 // MARK: - Claude Service
 
 protocol ClaudeServiceProtocol {
-    func generateShadowReaderQuestions(transcript: String) async throws -> [String]
+    func generateReflectQuestions(transcript: String) async throws -> [String]
     func generateText(transcript: String, style: String) async throws -> String
 }

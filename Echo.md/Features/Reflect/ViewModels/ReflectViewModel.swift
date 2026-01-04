@@ -2,26 +2,26 @@ import Foundation
 import Combine
 
 @MainActor
-final class ShadowReaderViewModel: ObservableObject {
-    @Published var questions: [ShadowReaderQuestion] = []
+final class ReflectViewModel: ObservableObject {
+    @Published var questions: [ReflectQuestion] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
 
     private let transcriptionUseCase: TranscriptionUseCaseProtocol
-    private let shadowReaderUseCase: ShadowReaderUseCaseProtocol
+    private let reflectUseCase: ReflectUseCaseProtocol
 
     init(
         transcriptionUseCase: TranscriptionUseCaseProtocol,
-        shadowReaderUseCase: ShadowReaderUseCaseProtocol
+        reflectUseCase: ReflectUseCaseProtocol
     ) {
         self.transcriptionUseCase = transcriptionUseCase
-        self.shadowReaderUseCase = shadowReaderUseCase
+        self.reflectUseCase = reflectUseCase
     }
 
     func generateQuestions(for transcript: String) async {
         isLoading = true
         do {
-            questions = try await shadowReaderUseCase.generateQuestions(for: transcript)
+            questions = try await reflectUseCase.generateQuestions(for: transcript)
         } catch {
             errorMessage = "Fehler beim Generieren der Fragen: \(error.localizedDescription)"
         }

@@ -1,6 +1,6 @@
 import Foundation
 
-struct ShadowReaderQuestion: Identifiable {
+struct ReflectQuestion: Identifiable {
     let id: UUID
     let question: String
     var answer: String?
