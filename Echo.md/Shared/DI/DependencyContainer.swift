@@ -18,6 +18,7 @@ protocol DependencyContainer {
 
     // Use Cases
     var recordingUseCase: RecordingUseCaseProtocol { get }
+    var fetchRecordingsUseCase: FetchRecordingsUseCaseProtocol { get }
     var transcriptionUseCase: TranscriptionUseCaseProtocol { get }
     var shadowReaderUseCase: ShadowReaderUseCaseProtocol { get }
     var textGenerationUseCase: TextGenerationUseCaseProtocol { get }
@@ -67,6 +68,10 @@ class DefaultDependencyContainer: DependencyContainer {
     lazy var recordingUseCase: RecordingUseCaseProtocol = RecordingUseCase(
         audioService: audioService,
         recordingRepository: recordingRepository
+    )
+
+    lazy var fetchRecordingsUseCase: FetchRecordingsUseCaseProtocol = FetchRecordingsUseCase(
+        repository: recordingRepository
     )
 
     lazy var transcriptionUseCase: TranscriptionUseCaseProtocol = TranscriptionUseCase(

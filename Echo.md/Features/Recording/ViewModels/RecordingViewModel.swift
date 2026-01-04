@@ -46,8 +46,10 @@ final class RecordingViewModel: ObservableObject {
         guard let recording = currentRecording else { return }
 
         do {
+            recording.duration = recordingDuration
             try await recordingUseCase.stopRecording(recording)
             isRecording = false
+            recordingDuration = 0
             hapticService.notification(.success)
         } catch {
             errorMessage = "Aufnahme konnte nicht gestoppt werden: \(error.localizedDescription)"
