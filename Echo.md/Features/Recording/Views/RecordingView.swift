@@ -48,25 +48,40 @@ struct RecordingView: View {
                 }
             }
         }
-        .onChange(of: viewModel.shouldNavigateToReflect) { _, shouldNavigate in
+        .onChange(of: viewModel.shouldNavigateToReflect) { oldValue, shouldNavigate in
+            print("👀 [RecordingView] onChange triggered: \(oldValue) -> \(shouldNavigate)")
             if shouldNavigate {
+                print("🚀 [RecordingView] Navigating to ReflectView!")
+                print("📦 [RecordingView] transcribedRecording: \(String(describing: viewModel.transcribedRecording))")
                 // Recording lokal speichern BEVOR resetNavigation() aufgerufen wird
                 recordingForReflect = viewModel.transcribedRecording
+                print("💾 [RecordingView] recordingForReflect set: \(String(describing: recordingForReflect))")
                 showReflect = true
+                print("🎭 [RecordingView] showReflect = true")
                 viewModel.resetNavigation()
             }
         }
         .fullScreenCover(isPresented: $showReflect) {
-            if let recording = recordingForReflect {
-                ReflectView(
-                    recording: recording,
-                    container: container,
-                    modelContext: modelContext
-                ) { transcript in
-                    enrichedTranscript = transcript
-                    showReflect = false
-                    showEditor = true
+            Group {
+                if let recording = recordingForReflect {
+                    ReflectView(
+                        recording: recording,
+                        container: container,
+                        modelContext: modelContext
+                    ) { transcript in
+                        enrichedTranscript = transcript
+                        showReflect = false
+                        showEditor = true
+                    }
+                } else {
+                    Text("Error: No recording available")
+                        .onAppear {
+                            print("❌ [RecordingView] fullScreenCover: recordingForReflect is nil!")
+                        }
                 }
+            }
+            .onAppear {
+                print("🎬 [RecordingView] fullScreenCover appeared! recordingForReflect: \(String(describing: recordingForReflect))")
             }
         }
         .fullScreenCover(isPresented: $showEditor) {

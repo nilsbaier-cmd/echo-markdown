@@ -27,7 +27,7 @@ enum ClaudeError: Error, LocalizedError {
 final class ClaudeService: ClaudeServiceProtocol {
     private let apiKey: String
     private let baseURL = "https://api.anthropic.com/v1/messages"
-    private let model = "claude-sonnet-4-20250514"
+    private let model = "claude-sonnet-4-5-20250929"
 
     init(apiKey: String) {
         self.apiKey = apiKey
@@ -203,7 +203,7 @@ final class ClaudeService: ClaudeServiceProtocol {
 
         var request = URLRequest(url: URL(string: baseURL)!)
         request.httpMethod = "POST"
-        request.setValue(apiKey, forHTTPHeaderField: "x-api-key")
+        request.setValue(apiKey, forHTTPHeaderField: "X-Api-Key")
         request.setValue("2023-06-01", forHTTPHeaderField: "anthropic-version")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 

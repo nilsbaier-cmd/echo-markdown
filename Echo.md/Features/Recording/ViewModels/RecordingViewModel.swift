@@ -85,18 +85,22 @@ final class RecordingViewModel: ObservableObject {
 
     private func transcribeRecording(_ recording: Recording) async {
         do {
+            print("🎯 [RecordingVM] Starting transcription...")
             _ = try await transcriptionUseCase.transcribe(recording)
 
             // Transcription successful - trigger navigation to Reflect
+            print("✅ [RecordingVM] Transcription successful!")
+            print("🔄 [RecordingVM] Setting shouldNavigateToReflect = true")
             isTranscribing = false
             transcribedRecording = recording
             shouldNavigateToReflect = true
+            print("📍 [RecordingVM] shouldNavigateToReflect is now: \(shouldNavigateToReflect)")
             hapticService.notification(.success)
         } catch {
             isTranscribing = false
             errorMessage = "Transkription fehlgeschlagen: \(error.localizedDescription)"
             hapticService.notification(.error)
-            print("Transkription fehlgeschlagen: \(error.localizedDescription)")
+            print("❌ [RecordingVM] Transkription fehlgeschlagen: \(error.localizedDescription)")
         }
     }
 
