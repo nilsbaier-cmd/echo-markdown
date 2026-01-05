@@ -11,6 +11,7 @@ struct RecordingView: View {
     @State private var showReflect = false
     @State private var showEditor = false
     @State private var enrichedTranscript: String = ""
+    @State private var recordingForReflect: Recording?
 
     private let container: DependencyContainer
 
@@ -49,12 +50,14 @@ struct RecordingView: View {
         }
         .onChange(of: viewModel.shouldNavigateToReflect) { _, shouldNavigate in
             if shouldNavigate {
+                // Recording lokal speichern BEVOR resetNavigation() aufgerufen wird
+                recordingForReflect = viewModel.transcribedRecording
                 showReflect = true
                 viewModel.resetNavigation()
             }
         }
         .fullScreenCover(isPresented: $showReflect) {
-            if let recording = viewModel.transcribedRecording {
+            if let recording = recordingForReflect {
                 ReflectView(
                     recording: recording,
                     container: container,
@@ -67,7 +70,7 @@ struct RecordingView: View {
             }
         }
         .fullScreenCover(isPresented: $showEditor) {
-            if let recording = viewModel.transcribedRecording {
+            if let recording = recordingForReflect {
                 EditorView(
                     transcript: enrichedTranscript,
                     recording: recording,
